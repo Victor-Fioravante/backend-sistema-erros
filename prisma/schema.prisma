@@ -1,0 +1,27 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model suggestion {
+  id           Int          @id @default(autoincrement())
+  errorCode    String       @db.Char(6)
+  text         String
+  evaluations  evaluation[]
+  createdAt    DateTime     @default(now())
+}
+
+model evaluation {
+  id            Int       @id @default(autoincrement())
+  errorCode     String    @db.Char(6)
+  clientCode    String    @db.Char(6)
+  rating        Boolean   // true = positiva, false = negativa
+  comment       String?
+  suggestionId  Int
+  suggestion    suggestion @relation(fields: [suggestionId], references: [id])
+  createdAt     DateTime  @default(now())
+}
