@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { CreateEvaluationDto } from './dto/create-evaluation.dto';
 import { EvaluationRepository } from './repository/evaluation.repository.interface';
+import { ResponseEvaluationDto } from './dto/response-evaluation.dto';
 
 @Injectable()
 export class EvaluationService {
@@ -11,6 +12,10 @@ export class EvaluationService {
   
   async create(dto: CreateEvaluationDto) {
     return this.evaluationRepository.create(dto);
+  }
+
+  async get(dto: ResponseEvaluationDto) {
+    return this.evaluationRepository.get(dto);
   }
 
   async getDashboard() {
@@ -25,12 +30,12 @@ export class EvaluationService {
 
     console.log("Avaliações recuperadas:", evaluations);
 
-    const grouped = new Map<string, { total: number; positives: number }>();
+    const grouped = new Map<number, { total: number; positives: number }>();
 
     this.processarAvaliacoes(evaluations, grouped);
 
-    const averageBySuggestion = Array.from(grouped.entries()).map(([errorCode, data]) => ({
-      errorCode,
+    const averageBySuggestion = Array.from(grouped.entries()).map(([suggestionId, data]) => ({
+      suggestionId,
       average: data.total === 0 ? null : data.positives / data.total,
       }));
     
@@ -40,17 +45,18 @@ export class EvaluationService {
       };
   }
 
-  private processarAvaliacoes(evaluations: { errorCode: string; rating: boolean; }[], grouped: Map<string, 
+
+  private processarAvaliacoes(evaluations: { suggestionId: number; rating: boolean; }[], grouped: Map<number, 
     { total: number; positives: number; }>) {
     for (const evaluation of evaluations) {
-      const group = grouped.get(evaluation.errorCode) || { total: 0, positives: 0 };
+      const group = grouped.get(evaluation.suggestionId) || { total: 0, positives: 0 };
       group.total += 1;
 
       if (evaluation.rating === true) {
         group.positives += 1;
       }
 
-      grouped.set(evaluation.errorCode, group);
+      grouped.set(evaluation.suggestionId, group);
     }
   }
 }

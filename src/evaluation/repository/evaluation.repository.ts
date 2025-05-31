@@ -2,6 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { EvaluationRepository } from "./evaluation.repository.interface";
 import { PrismaService } from "../../prisma/prisma.service";
 import { CreateEvaluationDto } from "../dto/create-evaluation.dto";
+import { ResponseEvaluationDto } from "../dto/response-evaluation.dto";
 
 @Injectable()
 export class EvaluationPrismaRepository implements EvaluationRepository {
@@ -19,6 +20,19 @@ export class EvaluationPrismaRepository implements EvaluationRepository {
     });
   }
 
+  
+  async get(): Promise<ResponseEvaluationDto[]> {
+    const evaluations = await this.prisma.evaluation.findMany();
+    return evaluations.map(e => ({
+      errorCode: e.errorCode,
+      clientCode: e.clientCode,
+      rating: e.rating,
+      suggestionId: e.suggestionId,
+      date: e.createdAt,
+      comment: e.comment === null ? undefined : e.comment
+    }));
+  }
+  
   async countAll(): Promise<number> {
     return this.prisma.evaluation.count();
   }
@@ -29,10 +43,10 @@ export class EvaluationPrismaRepository implements EvaluationRepository {
     });
   }
 
-  async findAllRatings(): Promise<{ errorCode: string; rating: boolean }[]> {
+  async findAllRatings(): Promise<{ suggestionId: number; rating: boolean }[]> {
     return this.prisma.evaluation.findMany({
       select: {
-        errorCode: true,
+        suggestionId: true,
         rating: true,
       },
     });

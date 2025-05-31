@@ -1,4 +1,3 @@
-import { Transform } from 'class-transformer';
 import { IsString, IsBoolean, Length, IsInt, IsNumberString } from 'class-validator';
 
 export class CreateEvaluationDto {
