@@ -1,7 +1,7 @@
 export class ResponseSuggestionDto {
 
-    id: number;  
-    
+    id: number;
+
     errorCode: string;
 
     text: string;

@@ -1,5 +1,3 @@
-/* eslint-disable prettier/prettier */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { IsNumberString, IsString, Length } from 'class-validator';
 
 export class CreateSuggestionDto {

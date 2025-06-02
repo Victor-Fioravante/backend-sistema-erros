@@ -23,12 +23,12 @@ export class SuggestionService {
       include: { evaluations: true },
     });
 
-    this.preencherResposta(newLocal, response);
+    this.fillResponse(newLocal, response);
 
     return response;
   }
 
-  private preencherResposta(newLocal: ({ evaluations: { id: number; errorCode: string; createdAt: Date; clientCode: string; rating: boolean; comment: string | null; suggestionId: number; }[]; } & { id: number; errorCode: string; text: string; createdAt: Date; })[], response: ResponseSuggestionDto[]) {
+  private fillResponse(newLocal: ({ evaluations: { id: number; errorCode: string; createdAt: Date; clientCode: string; rating: boolean; comment: string | null; suggestionId: number; }[]; } & { id: number; errorCode: string; text: string; createdAt: Date; })[], response: ResponseSuggestionDto[]) {
     for (const suggestion of newLocal) {
       response.push({
         id: suggestion.id,

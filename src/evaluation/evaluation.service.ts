@@ -9,7 +9,7 @@ export class EvaluationService {
     @Inject('EvaluationRepository')
     private readonly evaluationRepository: EvaluationRepository,
   ) {}
-  
+
   async create(dto: CreateEvaluationDto) {
     return this.evaluationRepository.create(dto);
   }
@@ -32,7 +32,7 @@ export class EvaluationService {
 
     const grouped = new Map<number, { total: number; positives: number; errorCode: string }>();
 
-    this.processarAvaliacoes(evaluations, grouped);
+    this.processEvaluations(evaluations, grouped);
 
     const averageBySuggestion = Array.from(grouped.entries()).map(([suggestionId, data]) => ({
       suggestionId,
@@ -47,7 +47,7 @@ export class EvaluationService {
   }
 
 
-  private processarAvaliacoes(evaluations: { suggestionId: number; rating: boolean; errorCode: string }[], grouped: Map<number,
+  private processEvaluations(evaluations: { suggestionId: number; rating: boolean; errorCode: string }[], grouped: Map<number,
     { total: number; positives: number; }>) {
     for (const evaluation of evaluations) {
       const group = grouped.get(evaluation.suggestionId) || { total: 0, positives: 0, errorCode: evaluation.errorCode };
