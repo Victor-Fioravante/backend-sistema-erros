@@ -5,7 +5,7 @@ export class CreateEvaluationDto {
   @Length(6, 6, {message: 'O código de erro deve conter 6 dígitos'})
   @IsNumberString({}, { message: 'errorCode deve conter apenas números' })
   errorCode: string;
-  
+
   @IsString()
   @Length(6, 6)
   @Length(6, 6, {message: 'clientCode deve conter 6 caracteres'})
@@ -13,7 +13,7 @@ export class CreateEvaluationDto {
   clientCode: string;
 
   @IsBoolean()
-  rating: boolean; 
+  rating: boolean;
 
   @IsString()
   comment?: string;

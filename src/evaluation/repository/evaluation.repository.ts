@@ -20,7 +20,6 @@ export class EvaluationPrismaRepository implements EvaluationRepository {
     });
   }
 
-  
   async get(): Promise<ResponseEvaluationDto[]> {
     const evaluations = await this.prisma.evaluation.findMany();
     return evaluations.map(e => ({
@@ -32,7 +31,6 @@ export class EvaluationPrismaRepository implements EvaluationRepository {
       comment: e.comment === null ? undefined : e.comment
     }));
   }
-  
   async countAll(): Promise<number> {
     return this.prisma.evaluation.count();
   }
@@ -43,11 +41,12 @@ export class EvaluationPrismaRepository implements EvaluationRepository {
     });
   }
 
-  async findAllRatings(): Promise<{ suggestionId: number; rating: boolean }[]> {
+  async findAllRatings(): Promise<{ suggestionId: number; rating: boolean, errorCode: string }[]> {
     return this.prisma.evaluation.findMany({
       select: {
         suggestionId: true,
         rating: true,
+        errorCode: true
       },
     });
   }

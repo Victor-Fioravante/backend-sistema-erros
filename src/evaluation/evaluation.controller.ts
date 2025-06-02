@@ -21,5 +21,4 @@ export class EvaluationController {
   getDashboard() {
     return this.evaluationService.getDashboard();
   }
-  
 }

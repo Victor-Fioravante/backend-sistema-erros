@@ -1,8 +1,6 @@
-/* eslint-disable prettier/prettier */
 import { Controller, Get, Post, Body, Param, Delete, Query, NotFoundException } from '@nestjs/common';
 import { SuggestionService } from './suggestion.service';
 import { CreateSuggestionDto } from './dto/create-suggestion.dto';
-// import { UpdateSuggestionDto } from './dto/update-suggestion.dto';
 
 @Controller('suggestion')
 export class SuggestionController {
@@ -19,18 +17,12 @@ export class SuggestionController {
     return await this.suggestionService.findAll(errorCode);
   }
 
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.suggestionService.findOne(+id);
-  // }
-
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateSuggestionDto: UpdateSuggestionDto) {
-  //   return this.suggestionService.update(+id, updateSuggestionDto);
-  // }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.suggestionService.remove(+id);
+  @Get(':id')
+  async findOne(@Param('id') id: number) {
+    const suggestion = await this.suggestionService.findOne(+id);
+    if (!suggestion) {
+      throw new NotFoundException('Sugestão não encontrada')
+    }
+    return suggestion;
   }
 }

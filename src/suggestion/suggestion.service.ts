@@ -40,11 +40,9 @@ export class SuggestionService {
     }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} suggestion`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} suggestion`;
+  async findOne(id: number) {
+    return this.prisma.suggestion.findUnique({
+      where: {id},
+    });
   }
 }

@@ -5,6 +5,6 @@ export interface EvaluationRepository {
   create(dto: CreateEvaluationDto): Promise<any>;
   countAll(): Promise<number>;
   countByRating(rating: boolean): Promise<number>;
-  findAllRatings(): Promise<{ suggestionId: number; rating: boolean }[]>;
+  findAllRatings(): Promise<{ suggestionId: number; rating: boolean, errorCode: string }[]>;
   get(dto: ResponseEvaluationDto): Promise<any>
 }
