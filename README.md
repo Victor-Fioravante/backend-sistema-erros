@@ -1,98 +1,254 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# API de Sugestões e Avaliações de Erros
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## Visão Geral
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+Este projeto é uma API RESTful construída com [NestJS](https://nestjs.com/) que gerencia sugestões e avaliações para códigos de erro de um sistema. A aplicação permite que os usuários criem e consultem sugestões para diferentes códigos de erro e também permite que as sugestões sejam avaliadas.
 
-## Description
+A API utiliza [Prisma](https://www.prisma.io/) como ORM para interagir com um banco de dados PostgreSQL e `class-validator` para validação de dados de entrada.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Principais Funcionalidades
 
-## Project setup
+* **Gestão de Sugestões**:
+    * Criação de novas sugestões para códigos de erro.
+    * Busca de sugestões por código de erro.
+    * Busca de uma sugestão específica por ID.
+* **Gestão de Avaliações**:
+    * Criação de avaliações (positivas ou negativas) para as sugestões.
+    * Consulta de avaliações.
+    * Dashboard com estatísticas de avaliações, incluindo a média total e por sugestão.
 
-```bash
-$ npm install
-```
+## Tecnologias Utilizadas
 
-## Compile and run the project
+* **Framework**: NestJS
+* **ORM**: Prisma
+* **Banco de Dados**: PostgreSQL
+* **Validação**: class-validator, class-transformer
+* **Linguagem**: TypeScript
 
-```bash
-# development
-$ npm run start
+## Configuração do Projeto
 
-# watch mode
-$ npm run start:dev
+### Pré-requisitos
 
-# production mode
-$ npm run start:prod
-```
+* Node.js (versão >= 20.11)
+* NPM ou Yarn
+* Um servidor de banco de dados PostgreSQL em execução.
 
-## Run tests
+### Instalação
 
-```bash
-# unit tests
-$ npm run test
+1.  **Clone o repositório:**
+    ```bash
+    git clone [https://github.com/victor-fioravante/backend-sistema-erros.git](https://github.com/victor-fioravante/backend-sistema-erros.git)
+    cd backend-sistema-erros
+    ```
 
-# e2e tests
-$ npm run test:e2e
+2.  **Instale as dependências:**
+    ```bash
+    npm install
+    ```
 
-# test coverage
-$ npm run test:cov
-```
+3.  **Configuração do Banco de Dados:**
+    * Crie um arquivo `.env` na raiz do projeto.
+    * Configure a variável de ambiente `DATABASE_URL` com a string de conexão do seu banco de dados PostgreSQL. Exemplo:
+        ```
+        DATABASE_URL="postgresql://USER:PASSWORD@HOST:PORT/DATABASE"
+        ```
 
-## Deployment
+4.  **Execute as migrações do Prisma** para criar as tabelas no banco de dados:
+    ```bash
+    npx prisma migrate dev
+    ```
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+## Executando a Aplicação
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+É possível executar a aplicação em diferentes modos:
 
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
-```
+* **Modo de Desenvolvimento (com watch):**
+    ```bash
+    npm run start:dev
+    ```
+    O servidor será iniciado e ficará observando alterações nos arquivos. Por padrão, a aplicação estará disponível em `http://localhost:3000`.
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+* **Modo de Produção:**
+    ```bash
+    npm run build
+    npm run start:prod
+    ```
+   
 
-## Resources
+A aplicação será executada com um prefixo global `api`. Portanto, todos os endpoints serão acessíveis a partir de `/api`.
 
-Check out a few resources that may come in handy when working with NestJS:
+## Endpoints da API
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+A seguir estão detalhados os endpoints disponíveis na API.
 
-## Support
+---
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+### Módulo: `Suggestion`
 
-## Stay in touch
+Controlador responsável pela gestão de sugestões.
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+**Prefixo:** `/api/suggestion`
 
-## License
+#### `POST /suggestion`
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+Cria uma nova sugestão para um código de erro.
+
+* **Corpo da Requisição:** `CreateSuggestionDto`
+    ```json
+    {
+      "errorCode": "123456",
+      "text": "Esta é uma sugestão de solução para o erro."
+    }
+    ```
+   
+
+* **Validações:**
+    * `errorCode`: Deve ser uma string de 6 caracteres e conter apenas números.
+    * `text`: Deve ser uma string.
+
+#### `GET /suggestion`
+
+Retorna uma lista de todas as sugestões. Pode ser filtrada por `errorCode`.
+
+* **Query Params (opcional):**
+    * `errorCode` (string): Filtra as sugestões pelo código de erro.
+
+* **Resposta:** `ResponseSuggestionDto[]`
+    ```json
+    [
+      {
+        "id": 1,
+        "errorCode": "123456",
+        "text": "Esta é uma sugestão de solução para o erro.",
+        "createdAt": "2025-06-24T01:30:00.000Z",
+        "evaluationIds": [1, 2]
+      }
+    ]
+    ```
+   
+
+#### `GET /suggestion/:id`
+
+Busca e retorna uma sugestão específica pelo seu ID.
+
+* **Parâmetros:**
+    * `id` (number): O ID da sugestão.
+
+* **Resposta:** Se a sugestão for encontrada, retorna o objeto da sugestão. Caso contrário, retorna um erro `404 Not Found`.
+
+---
+
+### Módulo: `Evaluation`
+
+Controlador para registrar e consultar avaliações das sugestões.
+
+**Prefixo:** `/api/evaluation`
+
+#### `POST /evaluation`
+
+Cria uma nova avaliação para uma sugestão existente.
+
+* **Corpo da Requisição:** `CreateEvaluationDto`
+    ```json
+    {
+      "errorCode": "123456",
+      "clientCode": "654321",
+      "rating": true,
+      "comment": "A sugestão foi muito útil!",
+      "suggestionId": 1
+    }
+    ```
+   
+
+* **Validações:**
+    * `errorCode` e `clientCode`: Devem ser strings de 6 caracteres contendo apenas números.
+    * `rating`: Deve ser um valor booleano (`true` para útil, `false` para não útil).
+    * `suggestionId`: Deve ser um número inteiro.
+    * `comment`: É uma string opcional.
+
+#### `GET /evaluation`
+
+Retorna uma lista de todas as avaliações registradas.
+
+* **Resposta:** `ResponseEvaluationDto[]`
+    ```json
+    [
+      {
+        "errorCode": "123456",
+        "clientCode": "654321",
+        "rating": true,
+        "suggestionId": 1,
+        "date": "2025-06-24T01:35:00.000Z",
+        "comment": "A sugestão foi muito útil!"
+      }
+    ]
+    ```
+   
+
+#### `GET /evaluation/dashboard`
+
+Retorna um dashboard com as estatísticas de avaliação.
+
+* **Resposta:**
+    ```json
+    {
+      "totalAverage": 0.75,
+      "averageBySuggestion": [
+        {
+          "suggestionId": 1,
+          "average": 0.8,
+          "errorCode": "123456"
+        },
+        {
+          "suggestionId": 2,
+          "average": 0.6,
+          "errorCode": "654321"
+        }
+      ]
+    }
+    ```
+   
+
+## Estrutura do Banco de Dados
+
+O ORM Prisma gerencia o schema do banco de dados. As tabelas principais são `suggestion` e `evaluation`.
+
+### Tabela `suggestion`
+
+| Campo | Tipo | Descrição |
+| :--- | :--- | :--- |
+| `id` | SERIAL | Chave Primária |
+| `errorCode` | CHAR(6) | O código do erro relacionado à sugestão. |
+| `text` | TEXT | O texto da sugestão. |
+| `createdAt`| TIMESTAMP | Data de criação do registro. |
+
+
+
+### Tabela `evaluation`
+
+| Campo | Tipo | Descrição |
+| :--- | :--- | :--- |
+| `id` | SERIAL | Chave Primária |
+| `errorCode` | CHAR(6) | O código do erro. |
+| `clientCode`| CHAR(6) | O código do cliente que está avaliando. |
+| `rating` | BOOLEAN | `true` se a sugestão foi útil, `false` caso contrário. |
+| `comment` | TEXT | Comentário opcional. |
+|`suggestionId`| INTEGER | Chave estrangeira para a tabela `suggestion`. |
+| `createdAt`| TIMESTAMP | Data de criação do registro. |
+
+
+
+## Scripts Disponíveis
+
+No `package.json`, você encontrará os seguintes scripts:
+
+* `npm run build`: Compila o projeto TypeScript.
+* `npm run format`: Formata o código com o Prettier.
+* `npm run lint`: Executa o ESLint para análise estática do código.
+* `npm run start`: Inicia a aplicação em modo de desenvolvimento.
+* `npm run start:dev`: Inicia a aplicação com o modo "watch".
+* `npm run start:prod`: Inicia a aplicação em modo de produção.
+* `npm run test`: Executa os testes unitários.
+* `npm run test:watch`: Executa os testes em modo "watch".
+* `npm run test:cov`: Gera um relatório de cobertura de testes.
+* `npm run test:e2e`: Executa os testes de ponta-a-ponta.
